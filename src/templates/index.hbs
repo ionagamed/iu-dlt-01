@@ -1,0 +1,107 @@
+<html lang="en">
+<head>
+  <title>Blockchain Poster</title>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300italic,700,700italic">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/milligram/1.4.1/milligram.css">
+</head>
+<body>
+<div id="main-container">
+  {{#if errors}}
+    <div class="errors">
+      {{#each errors}}
+        <p>{{this}}</p>
+      {{/each}}
+    </div>
+    <hr/>
+  {{/if}}
+  <div class="new-post">
+    <form action="/" method="POST">
+      <textarea id="content-input" name="content" cols="30" rows="10"
+                placeholder="Write your thoughts here">{{input}}</textarea>
+      <input type="submit" class="button" value="submit"/>
+    </form>
+  </div>
+  {{#each blocks}}
+    <hr/>
+    <div class="post">
+      <p class="post-content">{{content}}</p>
+      <div class="metadata">
+        <p class="monospace nonce">nonce: {{nonce}}</p>
+        <p class="monospace hash">
+          hash: {{hash}}
+          <span class="hash-badge {{#if isValid}}is-valid{{else}}is-invalid{{/if}}">
+            ({{#if isValid}}valid{{else}}invalid{{/if}})
+          </span>
+        </p>
+        <p class="monospace prev-hash">previous block hash: {{previousBlockHash}}</p>
+      </div>
+      <form action="/mine/{{_id}}" method="POST">
+        {{#if isValid}}
+          <input type="submit" value="mine" disabled class="button">
+          <span class="mine-comment">You cannot mine this block any further!  It is already valid.</span>
+        {{else}}
+          <input type="submit" value="mine" class="button">
+          <span class="mine-comment">This block is not valid.  You can mine it, but that might take some time.</span>
+        {{/if}}
+      </form>
+    </div>
+  {{/each}}
+</div>
+</body>
+<style>
+  body {
+    display: flex;
+    justify-content: center;
+  }
+
+  #main-container {
+    padding: 50px;
+    max-width: 800px;
+  }
+
+  .metadata p {
+    margin-bottom: 0;
+  }
+
+  .post-content {
+    font-size: 2rem;
+  }
+
+  .monospace {
+    font-family: monospace;
+  }
+
+  .hash-badge {
+    display: inline-block;
+    padding: 2px 3px;
+    border-radius: 4px;
+  }
+
+  .hash-badge.is-valid {
+    background-color: #ccffcc;
+  }
+
+  .hash-badge.is-invalid {
+    background-color: #ffcccc;
+  }
+
+  #content-input {
+    resize: none;
+    font-size: 2rem;
+    height: 100px;
+  }
+
+  .errors {
+    color: #ff0000;
+  }
+
+  .metadata {
+    padding-bottom: 30px;
+  }
+
+  .mine-comment {
+    padding-left: 20px;
+  }
+</style>
+</html>

@@ -1,0 +1,11 @@
+{
+  "compilerOptions": {
+    "target": "es2015",
+    "moduleResolution": "node",
+    "outDir": "dist",
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "strict": true
+  },
+  "exclude": ["dist", "node_modules"]
+}
